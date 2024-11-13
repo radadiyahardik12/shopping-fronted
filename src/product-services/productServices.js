@@ -1,7 +1,6 @@
 import { apiProduct } from "./productAuth";
 const api = process.env.REACT_APP_API_SERVICE_NAME; 
 
-const user_id = localStorage.getItem("userId");
 
 export const addProductItem = async (product) => {
     const endPoint = api + "api/products/add"; 
