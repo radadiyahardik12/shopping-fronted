@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { isValidEmail } from "./utilities"; // Assume this is your email validation function
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
+import Loader from "./Loader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPasswordTab, setShowPasswordTab] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -31,6 +33,7 @@ const Login = () => {
         emailRef.current.focus(); // Focus back on the email input if invalid
       }
     } else {
+      setLoader(true);
       authService.login(email, password)
         .then((res) => {
           if (res.status) {
@@ -38,8 +41,10 @@ const Login = () => {
             localStorage.setItem("userId", res.user_id);
               navigate("/");
           }
+          setLoader(false);
         })
         .catch((err) => {
+          setLoader(false);
             console.error("Login failed:", err.response ? err.response.data : err.message); // Handle the error
         });
     }
@@ -87,7 +92,8 @@ const Login = () => {
               className="flex justify-center py-1 hover:bg-yellow-300 hover:cursor-pointer bg-yellow-400 rounded-xl mt-5 font-semibold text-xl"
               onClick={handlerLogin}
             >
-              {showPasswordTab ? "Login" : "Continue"}
+              {loader ? <Loader hieght={25} width={25}/> : <></>}
+              {showPasswordTab ? loader ? 'Please wailt' :  "Login" : "Continue"}
             </div>
             <div className="font-medium text-xs w-full my-2">
               <p>

@@ -130,7 +130,7 @@ const Dashboard = () => {
                   <img
                     src={product.image}
                     alt={`Product ${i + 1}`}
-                    className="mb-4 h-52 w-full transform transition-transform duration-500 hover:scale-110"
+                    className="mb-4 h-52 w-full transform object-contain transition-transform duration-500 hover:scale-110"
                   />
                 </div>
                 <p className="mt-2 text-gray-600 text-xl font-semibold">{product.name}</p>

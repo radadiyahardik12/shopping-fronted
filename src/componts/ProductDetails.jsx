@@ -43,6 +43,7 @@ const ProductDetails = () => {
     }
   }, [productsDetails]);
   
+console.log("productsDetails", productsDetails);
 
   return (
     <>
@@ -75,9 +76,14 @@ const ProductDetails = () => {
             </div>
             {/* Main image */}
             <div
-              className="bg-auto bg-no-repeat bg-center w-full h-96 rounded-md shadow-md order-first md:order-last"
-              style={{ backgroundImage: `url(${selectedImage})` }}
-            ></div>
+              className="flex justify-center items-center w-full h-96 rounded-md shadow-md order-first md:order-last"
+            >
+              <img
+                  src={selectedImage}
+                  alt={`Thumbnail`}
+                  className="object-contain h-96 "
+                />
+            </div>
           </div>
         </div>
 
@@ -123,9 +129,13 @@ const ProductDetails = () => {
               {productsDetails.cart_id.includes(userID) ? "Remove to Cart" : "Add to Cart"}
             </button>
             <button className={`${productsDetails.order_id.includes(userID) ? "bg-red-500" : "bg-yellow-500" } text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition"`}
-              onClick={() => buyOrderHandler()}
+              onClick={() => {
+                if (productsDetails.isAvailable) {
+                  buyOrderHandler();
+                }
+              }}
             >
-            {productsDetails.order_id.includes(userID) ? "Cancel Order" : "Buy Now" }
+            {productsDetails.isAvailable ? productsDetails.order_id.includes(userID) ? "Cancel Order" : "Buy Now" : 'Not Available' }
             </button>
           </div>
         </div>

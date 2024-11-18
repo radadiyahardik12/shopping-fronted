@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { isValidEmail } from "./utilities";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
+import Loader from "./Loader";
 
 const SignUp = () => {
+  const [loader, setLoader] = useState(false);
+
   const [signData, setSignData] = useState({
     full_name: "",
     email: "",
@@ -19,9 +22,10 @@ const SignUp = () => {
  
   const handlerCreateAccount = () => {
     if (isValidEmail(signData.email)) {
+      setLoader(true)
       authService.createAccount(signData.full_name, signData.email, signData.password).then((res) => {
         console.log("res", res);
-        
+        setLoader(false)
         if (res.status) {
           navigate('/login');
         }
@@ -156,7 +160,9 @@ const SignUp = () => {
               }
              }}
             >
-              Create Account
+              {loader ? <Loader hieght={25} width={25}/> : <></>}
+              {loader ? 'Please wailt' :  "Create Account"}
+              
             </div>
             <div className=" font-medium text-xs w-full my-2 ">
               <p>
